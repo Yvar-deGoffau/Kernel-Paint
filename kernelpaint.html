@@ -1,0 +1,815 @@
+
+
+
+<html>
+ <head>
+  <title>Kernelpaint</title>
+  <style>
+body{
+ background-color:#A08444;
+ }
+[draggable] {
+ -moz-user-select: none;
+ -khtml-user-select: none;
+ -webkit-user-select: none;
+ user-select: none;
+ /* Required to make elements draggable in old WebKit */
+ -khtml-user-drag: element;
+ -webkit-user-drag: element;
+ }
+table{
+ border-collapse:collapse;
+ }
+td{
+ margin:0;
+ padding:0;
+ text-align:center;
+ }
+table.opget .counter{
+ border-top:1px solid #000;
+ }
+.counter{
+ border-left:1px solid #000;
+ }
+tr{
+ counter-reset:count -1;
+ }
+.counter:before{
+ position:relative;
+ left:-0.4em;
+ background-color:#A08444;
+ counter-increment:count;
+ content:counter(count);
+ }
+.instrname{
+ border:1px solid #000;
+ }
+.demo{
+ border:1px solid #000;
+ background-color:#FCE08C;
+ box-shadow:1px 1px 1px #000;
+ }
+.opcode{
+ border:1px solid #000;
+ background-color:#FCE08C;
+ }
+.opcode:empty{
+ border:1px solid #000;
+ background-color:#644818;
+ }
+.dragop{
+ cursor: move;
+ }
+.dragop:hover{
+ background-color:#FFF;
+ }
+ 
+tr.opsel:hover>td:first-child{
+ background-color:#FFF;
+ }
+tr.opsel>td.padding{
+ border-left:1px solid #000;
+ }
+ 
+table.opget{
+ border:1px solid #000;
+ }
+ 
+div.opgetcol{
+ display:inline-block;
+ padding:1em;
+ }
+ 
+td.nobottom{
+ border-bottom:1px solid #FCE08C;
+ }
+ 
+td.demo{
+ text-align:left;
+ padding:0 0.25em;
+ }
+ 
+#sheetcycle{
+ }
+ 
+#sheetcycle>td{
+ width:1.5em;
+ border-left:1px solid #644818;
+ }
+#sheetcycle>td:not(:last-child){
+ background-color:#FCE08C;
+ }
+#sheetcycle>.counter:before{
+ left:-0.6em;
+ background-color:#FCE08C;
+ }
+#sheetcycle{
+ height:2em;
+ }
+#kernalpaper{
+ }
+#sheetpf>td{
+ border-left:1px solid #A08444;
+ height:2em;
+ position:relative;
+ left:-0.75em;
+ color:#A08444;
+ }
+ 
+#sheetpf>td:nth-child(18){
+ border-left:4px solid #644818;
+ }
+#sheetpf>td:nth-child(22){
+ border-left:4px solid #644818;
+ }
+#sheetpf>td:nth-child(30){
+ border-left:4px solid #644818;
+ }
+#sheetpf>td:nth-child(38){
+ border-left:4px solid #644818;
+ }
+#sheetpf>td:nth-child(46){
+ border-left:4px solid #644818;
+ }
+#sheetpf>td:nth-child(54){
+ border-left:4px solid #644818;
+ }
+ 
+tr.pftop>td:not(:empty){
+ border:1px solid #000;
+ border-bottom:0px solid #000;
+ background-color:#644818;
+ box-shadow:1px 1px 1px #000;
+ color:#FCE08C;
+ }
+tr.pftop>td:first-child{
+ background-color:#A08444;
+ color:#000;
+ text-align:left;
+ border:none;
+ border-bottom:1px solid #000;
+ }
+tr.pfbottom>td:not(:empty){
+ border:1px solid #000;
+ border-top:0px solid #A08444;
+ background-color:#644818;
+ box-shadow:1px 1px 1px #000;
+ color:#FCE08C;
+ }
+tr.pfbottom>td:empty{
+ background-color:#A08444;
+ border:none;
+ border-bottom:1px solid #000;
+ }
+tr.instr{
+ background-color:#FCE08C;
+ }
+tr.instr>:last-child{
+ background-color:#644818;
+ color:#FCE08C;
+ }
+tr.instr>:not(last-child){
+ box-shadow:1px 1px 1px #000;
+ border:1px solid #000;
+ white-space: nowrap;
+ }
+  </style>
+ </head>
+ <body ondrop="dropdel(event)" ondragover="allowDrop(event)">
+ 
+  <h1>Kernel Paint</h1>
+  <hr>
+ 
+  <table id="kernalpaper">
+   <tr class="pftop">
+    <td colspan="68" rowspan="2"><h2>Kernel Line - drop area</h2></td>
+    <td colspan="16">PF0</td>
+    <td colspan="32">PF1</td>
+    <td colspan="32">PF2</td>
+    <td colspan="32">PF2</td>
+    <td colspan="32">PF1</td>
+    <td colspan="16">PF0</td>
+   </tr>
+   <tr class="pfbottom">
+    <td colspan="4">4</td>
+    <td colspan="4">5</td>
+    <td colspan="4">6</td>
+    <td colspan="4">7</td>
+    <td colspan="4">7</td>
+    <td colspan="4">6</td>
+    <td colspan="4">5</td>
+    <td colspan="4">4</td>
+    <td colspan="4">3</td>
+    <td colspan="4">2</td>
+    <td colspan="4">1</td>
+    <td colspan="4">0</td>
+    <td colspan="4">0</td>
+    <td colspan="4">1</td>
+    <td colspan="4">2</td>
+    <td colspan="4">3</td>
+    <td colspan="4">4</td>
+    <td colspan="4">5</td>
+    <td colspan="4">6</td>
+    <td colspan="4">7</td>
+    <td colspan="4">7</td>
+    <td colspan="4">6</td>
+    <td colspan="4">5</td>
+    <td colspan="4">4</td>
+    <td colspan="4">3</td>
+    <td colspan="4">2</td>
+    <td colspan="4">1</td>
+    <td colspan="4">0</td>
+    <td colspan="4">0</td>
+    <td colspan="4">1</td>
+    <td colspan="4">2</td>
+    <td colspan="4">3</td>
+    <td colspan="4">4</td>
+    <td colspan="4">5</td>
+    <td colspan="4">6</td>
+    <td colspan="4">7</td>
+    <td colspan="4">7</td>
+    <td colspan="4">6</td>
+    <td colspan="4">5</td>
+    <td colspan="4">4</td>
+   </tr>
+   <tr id="sheetpf">
+   </tr>
+   <tr id="sheetcycle">
+   </tr>
+   <tr class="instr"><td ondrop="drop(event)" ondragover="allowDrop(event)" colspan="228">Drop Instructions Here</td></tr>
+  </table>
+  
+  <hr>
+  
+  <h2>Instruction Set - drag area</h2>
+  
+  <div class="opgetcol"><table class="opget">
+   <tr>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="instrname">LDA</th>
+    <th class="instrname">STA</th>
+    <th class="instrname">ADC</th>
+    <th class="instrname">SBC</th>
+    <th class="instrname">AND</th>
+    <th class="instrname">ORA</th>
+    <th class="instrname">EOR</th>
+    <th class="instrname">CMP</th>
+    <th class="instrname">LDX</th>
+    <th class="instrname">STX</th>
+    <th class="instrname">LDY</th>
+    <th class="instrname">STY</th>
+    <th class="instrname">CPX</th>
+    <th class="instrname">CPY</th>
+    <th class="instrname">BIT</th>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="2">#0</td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA" data-at="00" data-at1="#" data-at2="">$A9</td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC" data-at="00" data-at1="#" data-at2="">$69</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC" data-at="00" data-at1="#" data-at2="">$E9</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND" data-at="00" data-at1="#" data-at2="">$29</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA" data-at="00" data-at1="#" data-at2="">$09</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR" data-at="00" data-at1="#" data-at2="">$49</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP" data-at="00" data-at1="#" data-at2="">$C9</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDX" data-at="00" data-at1="#" data-at2="">$A2</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDY" data-at="00" data-at1="#" data-at2="">$A0</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CPX" data-at="00" data-at1="#" data-at2="">$E0</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CPY" data-at="00" data-at1="#" data-at2="">$C0</div></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="3">$00</td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA" data-at="ZP" data-at1="" data-at2="">$A5</div></td> <!-- LDA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STA" data-at="ZP" data-at1="" data-at2="">$85</div></td> <!-- STA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC" data-at="ZP" data-at1="" data-at2="">$65</div></td> <!-- ADC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC" data-at="ZP" data-at1="" data-at2="">$E5</div></td> <!-- SBC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND" data-at="ZP" data-at1="" data-at2="">$25</div></td> <!-- AND -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA" data-at="ZP" data-at1="" data-at2="">$05</div></td> <!-- ORA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR" data-at="ZP" data-at1="" data-at2="">$45</div></td> <!-- EOR -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP" data-at="ZP" data-at1="" data-at2="">$C5</div></td> <!-- CMP -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDX" data-at="ZP" data-at1="" data-at2="">$A6</div></td> <!-- LDX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STX" data-at="ZP" data-at1="" data-at2="">$86</div></td> <!-- STX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDY" data-at="ZP" data-at1="" data-at2="">$A4</div></td> <!-- LDY -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STY" data-at="ZP" data-at1="" data-at2="">$84</div></td> <!-- STY -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CPX" data-at="ZP" data-at1="" data-at2="">$E4</div></td> <!-- CPX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CPY" data-at="ZP" data-at1="" data-at2="">$C4</div></td> <!-- CPY -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BIT" data-at="ZP" data-at1="" data-at2="">$24</div></td> <!-- BIT -->
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="4">$0000</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA.w" data-at="ADR" data-at1="" data-at2="">$AD</div></td> <!-- LDA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STA.w" data-at="ADR" data-at1="" data-at2="">$8D</div></td> <!-- STA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC.w" data-at="ADR" data-at1="" data-at2="">$6D</div></td> <!-- ADC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC.w" data-at="ADR" data-at1="" data-at2="">$ED</div></td> <!-- SBC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND.w" data-at="ADR" data-at1="" data-at2="">$2D</div></td> <!-- AND -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA.w" data-at="ADR" data-at1="" data-at2="">$0D</div></td> <!-- ORA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR.w" data-at="ADR" data-at1="" data-at2="">$4D</div></td> <!-- EOR -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP.w" data-at="ADR" data-at1="" data-at2="">$CD</div></td> <!-- CMP -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDX.w" data-at="ADR" data-at1="" data-at2="">$AE</div></td> <!-- LDX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STX.w" data-at="ADR" data-at1="" data-at2="">$8E</div></td> <!-- STX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDY.w" data-at="ADR" data-at1="" data-at2="">$AC</div></td> <!-- LDY -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STY.w" data-at="ADR" data-at1="" data-at2="">$8C</div></td> <!-- STY -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CPX.w" data-at="ADR" data-at1="" data-at2="">$EC</div></td> <!-- CPX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CPY.w" data-at="ADR" data-at1="" data-at2="">$CC</div></td> <!-- CPY -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BIT.w" data-at="ADR" data-at1="" data-at2="">$2C</div></td> <!-- BIT -->
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="6">($0000,x)</td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA.w" data-at="ADR" data-at1="(" data-at2=",x)">$A1</div></td> <!-- LDA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STA.w" data-at="ADR" data-at1="(" data-at2=",x)">$81</div></td> <!-- STA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC.w" data-at="ADR" data-at1="(" data-at2=",x)">$61</div></td> <!-- ADC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC.w" data-at="ADR" data-at1="(" data-at2=",x)">$E1</div></td> <!-- SBC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND.w" data-at="ADR" data-at1="(" data-at2=",x)">$21</div></td> <!-- AND -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA.w" data-at="ADR" data-at1="(" data-at2=",x)">$01</div></td> <!-- ORA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR.w" data-at="ADR" data-at1="(" data-at2=",x)">$41</div></td> <!-- EOR -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP.w" data-at="ADR" data-at1="(" data-at2=",x)">$C1</div></td> <!-- CMP -->
+    <td class="opcode"></td> <!-- LDX -->
+    <td class="opcode"></td> <!-- STX -->
+    <td class="opcode"></td> <!-- LDY -->
+    <td class="opcode"></td> <!-- STY -->
+    <td class="opcode"></td> <!-- CPX -->
+    <td class="opcode"></td> <!-- CPY -->
+    <td class="opcode"></td> <!-- BIT -->
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="4">$00,x</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA" data-at="ZP" data-at1="" data-at2=",x">$B5</div></td> <!-- LDA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STA" data-at="ZP" data-at1="" data-at2=",x">$95</div></td> <!-- STA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC" data-at="ZP" data-at1="" data-at2=",x">$75</div></td> <!-- ADC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC" data-at="ZP" data-at1="" data-at2=",x">$F5</div></td> <!-- SBC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND" data-at="ZP" data-at1="" data-at2=",x">$35</div></td> <!-- AND -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA" data-at="ZP" data-at1="" data-at2=",x">$15</div></td> <!-- ORA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR" data-at="ZP" data-at1="" data-at2=",x">$55</div></td> <!-- EOR -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP" data-at="ZP" data-at1="" data-at2=",x">$D5</div></td> <!-- CMP -->
+    <td class="opcode"></td> <!-- LDX -->
+    <td class="opcode"></td> <!-- STX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDY" data-at="ZP" data-at1="" data-at2=",x">$B4</div></td> <!-- LDY -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STY" data-at="ZP" data-at1="" data-at2=",x">$94</div></td> <!-- STY -->
+    <td class="opcode"></td> <!-- CPX -->
+    <td class="opcode"></td> <!-- CPY -->
+    <td class="opcode"></td> <!-- BIT -->
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="4">$00,y</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"></td> <!-- LDA -->
+    <td class="opcode"></td> <!-- STA -->
+    <td class="opcode"></td> <!-- ADC -->
+    <td class="opcode"></td> <!-- SBC -->
+    <td class="opcode"></td> <!-- AND -->
+    <td class="opcode"></td> <!-- ORA -->
+    <td class="opcode"></td> <!-- EOR -->
+    <td class="opcode"></td> <!-- CMP -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDX" data-at="ZP" data-at1="" data-at2=",y">$B6</div></td> <!-- LDX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STX" data-at="ZP" data-at1="" data-at2=",y">$96</div></td> <!-- STX -->
+    <td class="opcode"></td> <!-- LDY -->
+    <td class="opcode"></td> <!-- STY -->
+    <td class="opcode"></td> <!-- CPX -->
+    <td class="opcode"></td> <!-- CPY -->
+    <td class="opcode"></td> <!-- BIT -->
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="4">$0000,x</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA.w" data-at="ADR" data-at1="" data-at2=",x">$BD</div></td> <!-- LDA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STA.w" data-at="ADR" data-at1="" data-at2=",x">$9D</div></td> <!-- STA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC.w" data-at="ADR" data-at1="" data-at2=",x">$7D</div></td> <!-- ADC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC.w" data-at="ADR" data-at1="" data-at2=",x">$FD</div></td> <!-- SBC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND.w" data-at="ADR" data-at1="" data-at2=",x">$3D</div></td> <!-- AND -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA.w" data-at="ADR" data-at1="" data-at2=",x">$1D</div></td> <!-- ORA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR.w" data-at="ADR" data-at1="" data-at2=",x">$5D</div></td> <!-- EOR -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP.w" data-at="ADR" data-at1="" data-at2=",x">$DD</div></td> <!-- CMP -->
+    <td class="opcode"></td> <!-- LDX -->
+    <td class="opcode"></td> <!-- STX -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDY.w" data-at="ADR" data-at1="" data-at2=",x">$BC</div></td> <!-- LDY -->
+    <td class="opcode"></td> <!-- STY -->
+    <td class="opcode"></td> <!-- CPX -->
+    <td class="opcode"></td> <!-- CPY -->
+    <td class="opcode"></td> <!-- BIT -->
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="4">$0000,y</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA.w" data-at="ADR" data-at1="" data-at2=",y">$B9</div></td> <!-- LDA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STA.w" data-at="ADR" data-at1="" data-at2=",y">$99</div></td> <!-- STA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC.w" data-at="ADR" data-at1="" data-at2=",y">$79</div></td> <!-- ADC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC.w" data-at="ADR" data-at1="" data-at2=",y">$F9</div></td> <!-- SBC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND.w" data-at="ADR" data-at1="" data-at2=",y">$39</div></td> <!-- AND -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA.w" data-at="ADR" data-at1="" data-at2=",y">$19</div></td> <!-- ORA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR.w" data-at="ADR" data-at1="" data-at2=",y">$59</div></td> <!-- EOR -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP.w" data-at="ADR" data-at1="" data-at2=",y">$D9</div></td> <!-- CMP -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDX.w" data-at="ADR" data-at1="" data-at2=",y">$BE</div></td> <!-- LDX -->
+    <td class="opcode"></td> <!-- STX -->
+    <td class="opcode"></td> <!-- LDY -->
+    <td class="opcode"></td> <!-- STY -->
+    <td class="opcode"></td> <!-- CPX -->
+    <td class="opcode"></td> <!-- CPY -->
+    <td class="opcode"></td> <!-- BIT -->
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="5">($0000),y</td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LDA.w" data-at="ADR" data-at1="(" data-at2="),y">$B1</td> <!-- LDA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="STA.w" data-at="ADR" data-at1="(" data-at2="),y">$91</td> <!-- STA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ADC.w" data-at="ADR" data-at1="(" data-at2="),y">$71</td> <!-- ADC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SBC.w" data-at="ADR" data-at1="(" data-at2="),y">$F1</td> <!-- SBC -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="AND.w" data-at="ADR" data-at1="(" data-at2="),y">$31</td> <!-- AND -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ORA.w" data-at="ADR" data-at1="(" data-at2="),y">$11</td> <!-- ORA -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="EOR.w" data-at="ADR" data-at1="(" data-at2="),y">$51</td> <!-- EOR -->
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CMP.w" data-at="ADR" data-at1="(" data-at2="),y">$D1</td> <!-- CMP -->
+    <td class="opcode"></td> <!-- LDX -->
+    <td class="opcode"></td> <!-- STX -->
+    <td class="opcode"></td> <!-- LDY -->
+    <td class="opcode"></td> <!-- STY -->
+    <td class="opcode"></td> <!-- CPX -->
+    <td class="opcode"></td> <!-- CPY -->
+    <td class="opcode"></td> <!-- BIT -->
+   </tr>
+   
+  </table></div>
+  
+  
+  
+  
+  
+  <div class="opgetcol"><table class="opget">
+   <tr>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="instrname">ASL</th>
+    <th class="instrname">LSR</th>
+    <th class="instrname">ROL</th>
+    <th class="instrname">ROR</th>
+    <th class="instrname">DEC</th>
+    <th class="instrname">INC</th>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="2">A</td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ASL" data-at="" data-at1="" data-at2="">$0A</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LSR" data-at="" data-at1="" data-at2="">$4A</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROL" data-at="" data-at1="" data-at2="">$2A</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROR" data-at="" data-at1="" data-at2="">$6A</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="5">$00</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ASL" data-at="ZP" data-at1="" data-at2="">$06</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LSR" data-at="ZP" data-at1="" data-at2="">$46</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROL" data-at="ZP" data-at1="" data-at2="">$26</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROR" data-at="ZP" data-at1="" data-at2="">$66</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DEC" data-at="ZP" data-at1="" data-at2="">$C6</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="INC" data-at="ZP" data-at1="" data-at2="">$E6</div></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="6">$0000</td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ASL.w" data-at="ADR" data-at1="" data-at2="">$0E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LSR.w" data-at="ADR" data-at1="" data-at2="">$4E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROL.w" data-at="ADR" data-at1="" data-at2="">$2E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROR.w" data-at="ADR" data-at1="" data-at2="">$6E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DEC.w" data-at="ADR" data-at1="" data-at2="">$CE</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="INC.w" data-at="ADR" data-at1="" data-at2="">$EE</div></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="6">$00,x</td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ASL" data-at="ZP" data-at1="" data-at2=",x">$16</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LSR" data-at="ZP" data-at1="" data-at2=",x">$56</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROL" data-at="ZP" data-at1="" data-at2=",x">$36</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROR" data-at="ZP" data-at1="" data-at2=",x">$76</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DEC" data-at="ZP" data-at1="" data-at2=",x">$D6</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="INC" data-at="ZP" data-at1="" data-at2=",x">$F6</div></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="7">$0000,x</td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ASL.w" data-at="ADR" data-at1="" data-at2=",x">$1E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="LSR.w" data-at="ADR" data-at1="" data-at2=",x">$5E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROL.w" data-at="ADR" data-at1="" data-at2=",x">$3E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="ROR.w" data-at="ADR" data-at1="" data-at2=",x">$7E</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DEC.w" data-at="ADR" data-at1="" data-at2=",x">$DE</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="INC.w" data-at="ADR" data-at1="" data-at2=",x">$FE</div></td>
+   </tr>
+   
+   
+  </table></div>
+     
+  
+  <div class="opgetcol"><table class="opget">
+   <tr>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="instrname">PHA</th>
+    <th class="instrname">PLA</th>
+    <th class="instrname">PHP</th>
+    <th class="instrname">PLP</th>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="3">Op</td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="PHA" data-at="" data-at1="" data-at2="">$48</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="PHP" data-at="" data-at1="" data-at2="">$08</div></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="4">Op</td><td class="padding"></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="PLA" data-at="" data-at1="" data-at2="">$68</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="PLP" data-at="" data-at1="" data-at2="">$28</div></td>
+   </tr>
+   
+  </table></div>
+     
+  
+  <div class="opgetcol"><table class="opget">
+   <tr>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="instrname">TXS</th>
+    <th class="instrname">TSX</th>
+    <th class="instrname">TAX</th>
+    <th class="instrname">TXA</th>
+    <th class="instrname">DEX</th>
+    <th class="instrname">INX</th>
+    <th class="instrname">TAY</th>
+    <th class="instrname">TYA</th>
+    <th class="instrname">DEY</th>
+    <th class="instrname">INY</th>
+    <th class="instrname">CLC</th>
+    <th class="instrname">SEC</th>
+    <th class="instrname">CLI</th>
+    <th class="instrname">SEI</th>
+    <th class="instrname">CLV</th>
+    <th class="instrname">CLD</th>
+    <th class="instrname">SED</th>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="2">Op</td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="TXS" data-at="" data-at1="" data-at2="">$9A</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="TSX" data-at="" data-at1="" data-at2="">$BA</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="TAX" data-at="" data-at1="" data-at2="">$AA</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="TXA" data-at="" data-at1="" data-at2="">$8A</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DEX" data-at="" data-at1="" data-at2="">$CA</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="INX" data-at="" data-at1="" data-at2="">$E8</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="TAY" data-at="" data-at1="" data-at2="">$A8</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="TYA" data-at="" data-at1="" data-at2="">$98</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DEY" data-at="" data-at1="" data-at2="">$88</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="INY" data-at="" data-at1="" data-at2="">$C8</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CLC" data-at="" data-at1="" data-at2="">$18</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SEC" data-at="" data-at1="" data-at2="">$38</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CLI" data-at="" data-at1="" data-at2="">$58</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SEI" data-at="" data-at1="" data-at2="">$78</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CLV" data-at="" data-at1="" data-at2="">$B8</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="CLD" data-at="" data-at1="" data-at2="">$D8</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="SED" data-at="" data-at1="" data-at2="">$F8</div></td>
+   </tr>
+  </table></div>
+     
+  
+  <div class="opgetcol"><table class="opget">
+   <tr>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="instrname">BPL</th>
+    <th class="instrname">BMI</th>
+    <th class="instrname">BVC</th>
+    <th class="instrname">BVS</th>
+    <th class="instrname">BCC</th>
+    <th class="instrname">BCS</th>
+    <th class="instrname">BNE</th>
+    <th class="instrname">BEQ</th>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo nobottom" colspan="2">Op</td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BPL" data-at="label" data-at1="" data-at2="">$10</div></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BMI" data-at="label" data-at1="" data-at2="">$30</div></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BVC" data-at="label" data-at1="" data-at2="">$50</div></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BVS" data-at="label" data-at1="" data-at2="">$70</div></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BCC" data-at="label" data-at1="" data-at2="">$90</div></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BCS" data-at="label" data-at1="" data-at2="">$B0</div></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BNE" data-at="label" data-at1="" data-at2="">$D0</div></td>
+    <td class="opcode" rowspan="2"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BEQ" data-at="label" data-at1="" data-at2="">$F0</div></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="3">$00</td><td class="padding"></td>
+   </tr>
+  </table></div>
+     
+  
+  <div class="opgetcol"><table class="opget">
+   <tr>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="instrname">JMP</th>
+    <th class="instrname">JSR</th>
+    <th class="instrname">RTI</th>
+    <th class="instrname">RTS</th>
+    <th class="instrname">BRK</th>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="3">$0000</td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="JMP" data-at="label" data-at1="" data-at2="">$4C</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="5">($0000)</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="JMP" data-at="ADR" data-at1="(" data-at2=")">$6C</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="6">$0000</td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="JSR" data-at="label" data-at1="" data-at2="">$20</div></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="6">*</td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="RTI" data-at="" data-at1="" data-at2="">$40</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="RTS" data-at="" data-at1="" data-at2="">$60</div></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="7">$00</td><td class="padding"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="BRK" data-at="" data-at1="" data-at2="">$00</div></td>
+   </tr>
+  </table></div>
+  
+  <div class="opgetcol"><table class="opget">
+   <tr>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="counter"></th>
+    <th class="instrname">PAD</th>
+    <th class="instrname">NOP</th>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="1">*</td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="" data-at="" data-at1="" data-at2="">*</div></td>
+    <td class="opcode"></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="2">*</td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="" data-at="" data-at1="" data-at2="">*</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="NOP" data-at="" data-at1="" data-at2="">$EA</div></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="3">*</td><td class="padding"></td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="" data-at="" data-at1="" data-at2="">*</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DOP" data-at="ZP" data-at1="" data-at2="">$44</div></td>
+   </tr>
+   
+   <tr class="opsel">
+    <td class="demo" colspan="4">*</td><td class="padding"></td><td class="padding"></td><td class="padding"></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="" data-at="" data-at1="" data-at2="">*</div></td>
+    <td class="opcode"><div class="dragop" draggable="true" ondragstart="drag(event)" data-opcode="DOP" data-at="ZP" data-at1="" data-at2=",x">$54</div></td>
+   </tr>
+  </table></div>
+  
+  <hr>
+  
+ <p>Work in progress Atari VCS kernel painting program. Drag the instructions from the tables and drop them into the drawing line on the top. Drag them out of the line again to delete</p>
+   
+ </body>
+ 
+ <script>
+ 
+
+
+for(var i=0; i<=76; i++){
+ var element=document.createElement("td");
+ element.className="counter";
+ element.colSpan = "3"; 
+ document.getElementById("sheetcycle").appendChild(element);
+ }
+ 
+ function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("id", ev.target.id);
+    ev.dataTransfer.setData("opname", ev.target.getAttribute("data-opcode"));
+    ev.dataTransfer.setData("opat1", ev.target.getAttribute("data-at1"));
+    ev.dataTransfer.setData("opat2", ev.target.getAttribute("data-at2"));
+    ev.dataTransfer.setData("opat", ev.target.getAttribute("data-at"));
+    ev.dataTransfer.setData("opspan", ev.target.parentNode.parentNode.firstElementChild.colSpan*3);
+    ev.dataTransfer.setData("doremove", "false");
+}
+
+function drag2(ev) {
+    ev.dataTransfer.setData("id", ev.target.id);
+    ev.dataTransfer.setData("opname", ev.target.getAttribute("data-opcode"));
+    ev.dataTransfer.setData("opat1", ev.target.getAttribute("data-at1"));
+    ev.dataTransfer.setData("opat2", ev.target.getAttribute("data-at2"));
+    ev.dataTransfer.setData("opat", ev.target.getAttribute("data-at"));
+    ev.dataTransfer.setData("opspan", ev.target.getAttribute("data-colspan"));
+    ev.dataTransfer.setData("doremove", "true");
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("id");
+    var ele=document.createElement("td");
+    ele.id=Math.floor((Math.random() * 10000000000000000000) + 1);
+    ele.colSpan=ev.dataTransfer.getData("opspan");
+    ele.innerHTML=ev.dataTransfer.getData("opname");
+    ele.setAttribute("data-opcode",ev.dataTransfer.getData("opname"));
+    ele.setAttribute("data-at1",ev.dataTransfer.getData("opat1"));
+    ele.setAttribute("data-at2",ev.dataTransfer.getData("opat2"));
+    ele.setAttribute("data-at",ev.dataTransfer.getData("opat"));
+    ele.setAttribute("data-colspan", ev.dataTransfer.getData("opspan"));
+    ele.setAttribute("ondragover","allowDrop(event)");
+    ele.setAttribute("ondrop","drop(event)");
+    ele.setAttribute("draggable","true");
+    ele.setAttribute("ondragstart","drag2(event)");
+    if(ev.dataTransfer.getData("opat")!=""){
+     ele.innerHTML+="<br/>"+ev.dataTransfer.getData("opat1")+'<input type="text" value="'+ev.dataTransfer.getData("opat")+'" size="'+(ev.dataTransfer.getData("opspan")/2)+'"></input>'+ev.dataTransfer.getData("opat2");
+     }
+    ev.target.parentNode.insertBefore(ele,  ev.target);
+    if(ev.dataTransfer.getData("doremove")=="true"){
+     document.getElementById(ev.dataTransfer.getData("id")).remove();
+      }
+    else{
+      ev.target.colSpan-=ele.colSpan;
+      }
+}
+
+function dropdel(ev) {
+    ev.preventDefault();
+    if(ev.dataTransfer.getData("doremove")=="true"){
+      document.getElementById(ev.dataTransfer.getData("id")).parentNode.lastElementChild.colSpan+=parseInt(ev.dataTransfer.getData("opspan"));
+      document.getElementById(ev.dataTransfer.getData("id")).remove();
+      }
+    }
+
+ 
+ </script>
+ 
+</html>
